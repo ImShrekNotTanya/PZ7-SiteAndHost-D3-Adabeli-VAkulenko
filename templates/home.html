@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='game-console.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Elden Ring</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Elden Ring</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">О нас</a></li>
+                <li class="nav-item"><a class="nav-link" href="/gallery">Моменты</a></li>
+                {% if session.username %}
+                <li class="nav-item"><a class="nav-link" href="/logout">Выход</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
+                <li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <p></p>
+        <h1>Поиск обязательных боссов (все игры от FromSoftware)</h1>
+        <h5>Введите букву или имя босса</h5>
+        <form method="POST" action="/parse">
+            <input type="text" name="letter" placeholder="Введите букву" required>
+            <button type="submit">найти</button>
+            <p></p>
+        </form>
+
+        {% if bosses %}
+            <h2>Боссы на букву '{{ request.form.get('letter') }}':</h2>
+            <ul>
+                {% for boss in bosses %}
+                    <li>{{ boss }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+<style>
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-text {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .card:hover .card-text {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+        /* Установим фиксированные размеры для изображений карточек */
+        .card-img-top {
+            width: 100%; /* Ширина изображения - 100% карточки */
+            height: 400px; /* Высота изображения фиксированная */
+            object-fit: cover; /* Обеспечивает сохранение соотношения сторон без искажения */
+        }
+           .carousel-item img {
+        max-width: 75%;
+        margin: auto;
+    }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: black;
+            border-radius: 50%;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            color: black; /* Устанавливаем черный цвет для стрелок */
+        }
+        h1 {
+            margin-bottom: 20px; /* Отступ снизу для заголовка */
+        }
+        audio {
+            outline: none; /* Убрать контур (underline) вокруг плеера */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Отступ между заголовком и текстом */
+            font-size: 2.5em; /* Размер шрифта заголовка */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            text-align: center; /* Центровка текста */
+        }
+    </style>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="static/images/1.jpg" class="d-block" alt="Featured Image 1">
+        </div>
+        <div class="carousel-item">
+            <img src="static/images/5.jpg" class="d-block" alt="Featured Image 2">
+        </div>
+        <div class="carousel-item">
+            <img src="static/images/6.jpg" class="d-block" alt="Featured Image 3">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Предыдущий</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Следующий</span>
+    </a>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/4.jpg') }}" class="card-img-top" alt="Карточка 1">
+                <div class="card-body">
+                    <h5 class="card-title">I'm Malenia. Blade of Miquella.</h5>
+                    <p class="card-text"> Дочь королевы Марики и Радагона. Неземная, полубог и опциональный босс в игре Elden Ring (ﾉಥ益ಥ)ﾉ</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/7.jpg') }}" class="card-img-top" alt="Карточка 2">
+                <div class="card-body">
+                    <h5 class="card-title">Академия Райи Лукарии *:･ﾟ✧</h5>
+                    <p class="card-text">В давние времена Академия Райи Лукарии была создана в Озёрной Лиурнии чародеями блестящих камней, потомками древних астрологов, что предсказывали судьбу по звездам. </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/12.jpg') }}" class="card-img-top" alt="Карточка 3">
+                <div class="card-body">
+                    <h5 class="card-title">Лейнделл, столица королевства</h5>
+                    <p class="card-text">Лейнделл, столица королевства — крупнейший город Междуземья и столица королевства Древа Эрд.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Разговоры о важном: Миядзаки-сан и Elden Ring
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                <div class="card-body">
+                    Главное отличие Elden Ring от предыдущих игр Миядзаки — просторный открытый мир,
+                    исследованию которого отведено немало времени (к счастью, это можно будет делать верхом на лошади).
+                    Королевство состоит из шести крупных локаций, где найдутся замки, катакомбы, пещеры и другие точки интереса;
+                    классические подземелья в духе Dark Souls никуда не денутся.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Краткий курс бойца: как победить Малению на билде "Рыцарь с двуручным или полуторным мечом"
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    Маления - девушка мощная, но хрупкая. Я убрал щит и меч, достал цвайхендер, заточил его на качество,
+                    пепел войны взял решимость рыцаря, которая усиливает ваш один удар. Кувырки никуда не деваются, вам придётся это делать.
+                    Уклонились от атаки и сделали 2 слабых удара, опять кувырок от атаки и опять. В итоге, Маления потеряет баланс (встанет на колено),
+                    а вы бейте её критическим ударом. После критического удара не спешите отходить,
+                    а зарядите мощную атаку на максимум и пока она встаёт вы её ударите ещё раз. Достойная тактика и отнимает много здоровья.
+                    В игре есть атака в прыжке, если враг делает рывок в вашу сторону, нажимайте кувырок, а затем прыжок и тяжёлую атаку.
+                    Если вы усилите атаку в прыжке решимостью рыцаря, то после 3 ударов Маления улетит в оглушение, даём критический удар.
+                    Вот таким способом я убил её на первом прохождении. Бейте тяжёлым оружием и будет вам счастье.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Джордж Мартин о работе над Elden Ring: «Я далёк от игр, но от этого предложения нельзя было отказаться»
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    Несколько лет назад Хидэтака Миядзаки и его потрясающая команда геймдизайнеров, авторов серии Dark Souls,
+                    обратились ко мне из Японии с просьбой помочь создать историю мира для новой игры, над которой они работали.
+                    И хотя видеоигры не по моей части — на заре времён я немного поигрывал, в основном в стратегии вроде Railroad Tycoon,
+                    Master of Orion и Romance of the Three Kingdoms, но это предложение было слишком заманчивым, чтобы отказаться.
+
+                    Миядзаки и его команда создавали нечто инновационное с невероятным арт-дизайном.
+                    От меня они хотели лишь немного помощи в создании мира: им нужен был глубокий, мрачный и живой мир,
+                    который послужит основой для их игры. И так уж получилось, что я люблю создавать миры и придумывать вымышленные истории.
+
+
+                </div>
+            </div>
+        </div>
+        <p></p>
+    </div>
+</div>
+
+    <footer class="bg-light text-center text-lg-start">
+        <div class="text-center p-3">
+            Контактная информация: fromsoftware@gmail.com | Телефон: 8 (246) 902-23-65
+            <br>
+            <a href="https://www.fromsoftware.jp/ww/">Официальный сайт</a>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
